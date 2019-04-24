@@ -4,6 +4,7 @@ import torch.nn as nn
 
 class Generator(nn.Module):
     def __init__(self, nc, nz, nte, nt, ngf):
+        super(Generator, self).__init__()
         self.nt = nt
         self.main = nn.Sequential(
             nn.ConvTranspose2d(nz+nt, ngf*8, 4, 1, 0, bias=False),
@@ -58,6 +59,7 @@ class Generator(nn.Module):
 
 class Discriminator(nn.Module):
     def __init__(self, nc, nte, nt, ndf):
+        super(Discriminator, self).__init__()
         self.nt = nt
         self.conv1 = nn.Sequential(
             # nc x 64 x 64

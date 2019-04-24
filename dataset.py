@@ -6,69 +6,29 @@ import os.path
 import pickle
 import random
 import numpy as np
-import pandas as pd
 
 
-class TextDataset(data.Dataset):
+class COCODataset(data.Dataset):
     def __init__(self, data_dir, split='train', embedding_type='cnn-rnn',
-                 imsize=64, transform=None, target_transform=None):
+                 imsize=64, transform=None):
 
         self.transform = transform
-        self.target_transform = target_transform
         self.imsize = imsize
         self.data = []
         self.data_dir = data_dir
-        if data_dir.find('birds') != -1:
-            self.bbox = self.load_bbox()
-        else:
-            self.bbox = None
-        split_dir = os.path.join(data_dir, split)
 
-        self.filenames = self.load_filenames(split_dir)
-        self.embeddings = self.load_embedding(split_dir, embedding_type)
-        self.captions = self.load_all_captions()
+        self.filenames = self.load_filenames()
+        self.embeddings = self.load_embedding(embedding_type)
+        # self.captions = self.load_all_captions()
 
-    def get_img(self, img_path, bbox):
+    def get_img(self, img_path):
         img = Image.open(img_path).convert('RGB')
         width, height = img.size
-        if bbox is not None:
-            R = int(np.maximum(bbox[2], bbox[3]) * 0.75)
-            center_x = int((2 * bbox[0] + bbox[2]) / 2)
-            center_y = int((2 * bbox[1] + bbox[3]) / 2)
-            y1 = np.maximum(0, center_y - R)
-            y2 = np.minimum(height, center_y + R)
-            x1 = np.maximum(0, center_x - R)
-            x2 = np.minimum(width, center_x + R)
-            img = img.crop([x1, y1, x2, y2])
         load_size = int(self.imsize * 76 / 64)
         img = img.resize((load_size, load_size), PIL.Image.BILINEAR)
         if self.transform is not None:
             img = self.transform(img)
         return img
-
-    def load_bbox(self):
-        data_dir = self.data_dir
-        bbox_path = os.path.join(data_dir, 'CUB_200_2011/bounding_boxes.txt')
-        df_bounding_boxes = pd.read_csv(bbox_path,
-                                        delim_whitespace=True,
-                                        header=None).astype(int)
-        #
-        filepath = os.path.join(data_dir, 'CUB_200_2011/images.txt')
-        df_filenames = \
-            pd.read_csv(filepath, delim_whitespace=True, header=None)
-        filenames = df_filenames[1].tolist()
-        print('Total filenames: ', len(filenames), filenames[0])
-        #
-        filename_bbox = {img_file[:-4]: [] for img_file in filenames}
-        numImgs = len(filenames)
-        for i in xrange(0, numImgs):
-            # bbox = [x-left, y-top, width, height]
-            bbox = df_bounding_boxes.iloc[i][1:].tolist()
-
-            key = filenames[i][:-4]
-            filename_bbox[key] = bbox
-        #
-        return filename_bbox
 
     def load_all_captions(self):
         caption_dict = {}
@@ -86,22 +46,18 @@ class TextDataset(data.Dataset):
                     for cap in captions if len(cap) > 0]
         return captions
 
-    def load_embedding(self, data_dir, embedding_type):
+    def load_embedding(self, embedding_type):
         if embedding_type == 'cnn-rnn':
-            embedding_filename = '/char-CNN-RNN-embeddings.pickle'
-        elif embedding_type == 'cnn-gru':
-            embedding_filename = '/char-CNN-GRU-embeddings.pickle'
-        elif embedding_type == 'skip-thought':
-            embedding_filename = '/skip-thought-embeddings.pickle'
+            embedding_filename = '../data/COCO/coco/train/char-CNN-RNN-embeddings.pickle'
 
-        with open(data_dir + embedding_filename, 'rb') as f:
-            embeddings = pickle.load(f)
+        with open(embedding_filename, 'rb') as f:
+            embeddings = pickle.load(f, encoding='latin1')
             embeddings = np.array(embeddings)
             print('embeddings: ', embeddings.shape)
         return embeddings
 
-    def load_filenames(self, data_dir):
-        filepath = os.path.join(data_dir, 'filenames.pickle')
+    def load_filenames(self):
+        filepath = os.path.join('../data/COCO/coco/train', 'filenames.pickle')
         with open(filepath, 'rb') as f:
             filenames = pickle.load(f)
         print('Load filenames from: %s (%d)' % (filepath, len(filenames)))
@@ -109,24 +65,15 @@ class TextDataset(data.Dataset):
 
     def __getitem__(self, index):
         key = self.filenames[index]
-        
-        if self.bbox is not None:
-            bbox = self.bbox[key]
-            data_dir = '%s/CUB_200_2011' % self.data_dir
-        else:
-            bbox = None
-            data_dir = self.data_dir
 
-        captions = self.captions[key]
+        # captions = self.captions[key]
         embeddings = self.embeddings[index, :, :]
-        img_name = '%s/images/%s.jpg' % (data_dir, key)
-        img = self.get_img(img_name, bbox)
+        img_name = '%s/%s.jpg' % (self.data_dir, key)
+        img = self.get_img(img_name)
 
         rand_ix = random.randint(0, embeddings.shape[0]-1)
         embedding = embeddings[rand_ix, :]
-        if self.target_transform is not None:
-            embedding = self.target_transform(embedding)
-        return img, embedding,captions[rand_ix]
+        return img, embedding  #, captions[rand_ix]
 
     def __len__(self):
         return len(self.filenames)
