@@ -55,7 +55,7 @@ class AttnGAN(object):
         self.ixtoword = self.dataset.ixtoword
 
     def build_models(self):
-        image_encoder = CNNEncoder(cfg.t_dim).to(device)
+        image_encoder = CNNEncoder(cfg.t_dim, download=False).to(device)
         image_encoder.load_state_dict(torch.load(cfg.image_encoder_path))
         for p in image_encoder.parameters():
             p.requires_grad = False

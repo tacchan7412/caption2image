@@ -172,15 +172,16 @@ class RNNEncoder(nn.Module):
 
 
 class CNNEncoder(nn.Module):
-    def __init__(self, nef):
+    def __init__(self, nef, download=True):
         super(CNNEncoder, self).__init__()
         self.nef = nef
+        self.download = download
 
         self.define_module()
         self.init_trainable_weights()
 
     def define_module(self):
-        model = models.inception_v3(pretrained=True)
+        model = models.inception_v3(pretrained=self.download)
         # set requires_grad False for inception v3
         for param in model.parameters():
             param.requires_grad = False
