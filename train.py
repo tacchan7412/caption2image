@@ -9,6 +9,8 @@ import os
 import random
 from datetime import datetime
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 import utils
@@ -33,7 +35,7 @@ lr = 0.0002
 beta1 = 0.5
 
 cls_flag = True
-int_flag = True
+int_flag = False
 int_beta = 0.5
 
 gan_name = 'gan'
