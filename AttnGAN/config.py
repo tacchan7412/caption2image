@@ -10,7 +10,7 @@ parser.add_argument('--seed', type=int, default=7412)
 '''
 data
 '''
-parser.add_argument('--data_dir', type=str, default='../data/COCO')
+parser.add_argument('--data_dir', type=str, default='../../data/COCO')
 parser.add_argument('--words_num', type=int, default=15)
 
 '''
