@@ -90,7 +90,8 @@ def train(epoch, G_net, D_net, dataloader, G_opt, D_opt, criterion):
             D_loss += D_fake_text_loss
         x_hat = G_net(z, t)
         D_fake_image = D_net(x_hat.detach(), t).view(-1)
-        D_fake_image_loss = criterion(D_fake_image, fake_label) * (1.0 - 0.5 * cls_flag)
+        D_fake_image_loss = (criterion(D_fake_image, fake_label)
+                             * (1.0 - 0.5 * cls_flag))
         D_fake_image_loss.backward()
         D_loss += D_fake_image_loss
         D_opt.step()
@@ -111,7 +112,8 @@ def train(epoch, G_net, D_net, dataloader, G_opt, D_opt, criterion):
 
         if i % 50 == 0:
             print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f'
-                  % (epoch, epochs, i, len(dataloader), D_loss.item(), G_loss.item()))
+                  % (epoch, epochs, i, len(dataloader),
+                     D_loss.item(), G_loss.item()))
         D_losses.append(D_loss.item())
         G_losses.append(G_loss.item())
 
@@ -197,7 +199,8 @@ def main():
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0, 0, 0), (1, 1, 1))])
-    train_dataset = COCODataset('../data/COCO/train2014', transform=image_transform)
+    train_dataset = COCODataset('../../data/COCO/train2014',
+                                transform=image_transform)
     train_dataloader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=batch_size*2,  # half of batch will be used for fake text
