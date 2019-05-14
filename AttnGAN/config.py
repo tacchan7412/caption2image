@@ -40,7 +40,7 @@ parser.add_argument('--lrG', type=float, default=0.0002)
 train
 '''
 parser.add_argument('--epochs', type=int, default=120)
-parser.add_argument('--batch_size', type=int, default=32)
+parser.add_argument('--batch_size', type=int, default=16)
 parser.add_argument('--snapshot_interval', type=int, default=5)
 
 '''
