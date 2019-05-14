@@ -130,7 +130,7 @@ class AttnGAN(object):
             fake_imgs, attention_maps, _, _ = G(noise, sent_emb,
                                                 words_embs, mask)
         for i, fake_img in enumerate(fake_imgs):
-            img = vutils.make_grid(fake_imgs.detach())
+            img = vutils.make_grid(fake_img.detach())
             self.writer.add_image('images/%d' % (i), img, epoch)
 
         for i in range(len(attention_maps)):
