@@ -112,6 +112,9 @@ class AttnGAN(object):
         words_embs, sent_emb = text_encoder(captions, cap_lens)
         words_embs, sent_emb = words_embs.detach(), sent_emb.detach()
         mask = (captions == 0)
+        num_words = words_embs.size(2)
+        if mask.size(1) > num_words:
+            mask = mask[:, :num_words]
         return (noise, sent_emb, words_embs, mask, captions, cap_lens)
 
     def save_models(self, G, Ds, epoch):
