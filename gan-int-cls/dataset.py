@@ -48,7 +48,7 @@ class COCODataset(data.Dataset):
 
     def load_embedding(self, embedding_type):
         if embedding_type == 'cnn-rnn':
-            embedding_filename = '../data/COCO/coco/train/char-CNN-RNN-embeddings.pickle'
+            embedding_filename = '../../data/COCO/coco/train/char-CNN-RNN-embeddings.pickle'
 
         with open(embedding_filename, 'rb') as f:
             embeddings = pickle.load(f, encoding='latin1')
@@ -57,7 +57,7 @@ class COCODataset(data.Dataset):
         return embeddings
 
     def load_filenames(self):
-        filepath = os.path.join('../data/COCO/coco/train', 'filenames.pickle')
+        filepath = os.path.join('../../data/COCO/coco/train', 'filenames.pickle')
         with open(filepath, 'rb') as f:
             filenames = pickle.load(f)
         print('Load filenames from: %s (%d)' % (filepath, len(filenames)))
