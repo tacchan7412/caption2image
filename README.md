@@ -47,7 +47,8 @@ I prepared notebook for evaluation (AttnGAN/eval.ipynb).
 You can evaluate generated images by
 - inception score
 - frechet inception distance
-- R-precision
+- R-precision  
+
 You can also generate images from your own captions.
 
 ### Pretrained Model
