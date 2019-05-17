@@ -11,7 +11,7 @@ In addition, you may need other packages...
 
 ## Data
 
-1. Download preprocessed metadata for [COCO]() and extract
+1. Download preprocessed metadata for [COCO filename](https://drive.google.com/file/d/1cYcHZNJ63tHjMITvBdf8pWD7FNAWXxnq/view?usp=sharing) and [COCO text](https://drive.google.com/file/d/1sz3kuQfmGKirv7pIaqrtr7SF0ZdzMPT4/view?usp=sharing) and extract
 2. Download [COCO dataset](http://cocodataset.org/#download)
 3. Place data as below
 
@@ -52,9 +52,9 @@ You can also generate images from your own captions.
 
 ### Pretrained Model
 
-1. Download [DAMSM image_encoder]()
-2. Download [DAMSM text_encoder]()
-3. Download [AttnGAN Generator]()
+1. Download [DAMSM image_encoder](https://drive.google.com/file/d/1OJE_g2Oh-VIVEt0ulVmHnc8hSn3m22q1/view?usp=sharing)
+2. Download [DAMSM text_encoder](https://drive.google.com/file/d/1DKSbE5kSoGnBoiJQFhWFl-oeBe7CXiTh/view?usp=sharing)
+3. Download [AttnGAN Generator](https://drive.google.com/file/d/1XysSOSmGhLJ-ZoTr0AY_DOTYOS_Ztm2J/view?usp=sharing) and [config](https://drive.google.com/file/d/1r6qQqCiTlIo93tPyZ84_fmB6ZWhKGBqZ/view?usp=sharing)
 4. Place models as below
 
 ```
