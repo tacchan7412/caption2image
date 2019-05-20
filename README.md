@@ -69,7 +69,27 @@ AttnGAN
                  |- G_epoch50.pth
             |- config.txt
 ```
+## TODO
+- Paper
+  - [x] GAN-INT-CLS
+    - [x] survey
+    - [x] impl
+  - [ ] StackGAN
+    - [x] survey
+    - [ ] impl
+  - [ ] StackGAN++
+    - [x] survey
+    - [ ] impl
+  - [x] AttnGAN
+    - [x] survey
+    - [x] impl
+  - [ ] MirrorGAN
+    - [ ] survey
+    - [ ] impl
+- Dataset
+  - [ ] Bird
+  - [x] MS COCO
 
-## Reference (WIP)
+## Reference 
 - [GAN-INT-CLS](http://arxiv.org/abs/1605.05396) ([code](https://github.com/reedscot/icml2016))
 - [AttnGAN](http://openaccess.thecvf.com/content_cvpr_2018/html/Xu_AttnGAN_Fine-Grained_Text_CVPR_2018_paper.html) ([code](https://github.com/taoxugit/AttnGAN))
