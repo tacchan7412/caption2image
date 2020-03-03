@@ -13,7 +13,8 @@ In addition, you may need other packages...
 
 1. Download preprocessed metadata for [COCO filename](https://drive.google.com/file/d/1cYcHZNJ63tHjMITvBdf8pWD7FNAWXxnq/view?usp=sharing) and [COCO text](https://drive.google.com/file/d/1sz3kuQfmGKirv7pIaqrtr7SF0ZdzMPT4/view?usp=sharing) and extract
 2. Download [COCO dataset](http://cocodataset.org/#download)
-3. Place data as below
+3. Download [embedding file](https://www.floydhub.com/jppgks/datasets/stackgan-cub-text-embeddings)
+4. Place data as below
 
 ```
 data_dir 
